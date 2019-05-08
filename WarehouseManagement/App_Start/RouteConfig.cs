@@ -18,6 +18,12 @@ namespace WarehouseManagement
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+               name: "ajax",
+               url: "{controller}/{action}/{id}",
+               defaults: new { controller = "Product", action = "GetProdGroupList", id = UrlParameter.Optional }
+           );
         }
     }
 }

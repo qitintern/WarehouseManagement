@@ -76,7 +76,7 @@ namespace WarehouseManagement.Controllers
             if (product == null)
             {
                 return HttpNotFound();
-            }
+            }   
             ViewBag.GroupID = new SelectList(db.ProductGroups, "ID", "Name", product.GroupID);
             return View(product);
         }

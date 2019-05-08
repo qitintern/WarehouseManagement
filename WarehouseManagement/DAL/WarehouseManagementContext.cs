@@ -24,5 +24,7 @@ namespace WarehouseManagement.DAL
             .WillCascadeOnDelete(false);
 
         }
+
+        public System.Data.Entity.DbSet<WarehouseManagement.Models.Company> Companies { get; set; }
     }
 }

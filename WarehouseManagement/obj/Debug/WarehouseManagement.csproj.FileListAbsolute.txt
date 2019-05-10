@@ -81,8 +81,6 @@ C:\Users\Qitplus\source\repos\WarehouseManagement\WarehouseManagement\obj\Debug\
 C:\Users\Qitplus\source\repos\WarehouseManagement\WarehouseManagement\obj\Debug\WarehouseManagement.csproj.CopyComplete
 C:\Users\Qitplus\source\repos\WarehouseManagement\WarehouseManagement\obj\Debug\WarehouseManagement.dll
 C:\Users\Qitplus\source\repos\WarehouseManagement\WarehouseManagement\obj\Debug\WarehouseManagement.pdb
+C:\Users\Qitplus\source\repos\WarehouseManagement\WarehouseManagement\obj\Debug\WarehouseManagement.csprojAssemblyReference.cache
 C:\Users\Qitplus\source\repos\WarehouseManagement\WarehouseManagement\obj\Debug\WarehouseManagement.Migrations.CatFieldUpdated.resources
 C:\Users\Qitplus\source\repos\WarehouseManagement\WarehouseManagement\obj\Debug\WarehouseManagement.csproj.GenerateResource.cache
-C:\Users\Qitplus\source\repos\WarehouseManagement\WarehouseManagement\obj\Debug\WarehouseManagement.Migrations.CatFieldUpdated1.resources
-C:\Users\Qitplus\source\repos\WarehouseManagement\WarehouseManagement\obj\Debug\WarehouseManagement.csprojAssemblyReference.cache
-C:\Users\Qitplus\source\repos\WarehouseManagement\WarehouseManagement\obj\Debug\WarehouseManagement.Migrations.CatFieldUpdated2.resources

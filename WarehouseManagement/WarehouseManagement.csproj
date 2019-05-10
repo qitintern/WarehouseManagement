@@ -132,6 +132,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductCategoryController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -140,19 +141,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201905070554393_CatFieldUpdated.cs" />
-    <Compile Include="Migrations\201905070554393_CatFieldUpdated.Designer.cs">
-      <DependentUpon>201905070554393_CatFieldUpdated.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905080426332_CatFieldUpdated1.cs" />
-    <Compile Include="Migrations\201905080426332_CatFieldUpdated1.Designer.cs">
-      <DependentUpon>201905080426332_CatFieldUpdated1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905080553561_CatFieldUpdated2.cs" />
-    <Compile Include="Migrations\201905080553561_CatFieldUpdated2.Designer.cs">
-      <DependentUpon>201905080553561_CatFieldUpdated2.cs</DependentUpon>
+    <Compile Include="Migrations\201905080647415_CatFieldUpdated.cs" />
+    <Compile Include="Migrations\201905080647415_CatFieldUpdated.Designer.cs">
+      <DependentUpon>201905080647415_CatFieldUpdated.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductCategory.cs" />
     <Compile Include="Models\ProductGroup.cs" />
@@ -211,6 +205,11 @@
     <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\Product\Edit.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Company\Create.cshtml" />
+    <Content Include="Views\Company\Delete.cshtml" />
+    <Content Include="Views\Company\Details.cshtml" />
+    <Content Include="Views\Company\Edit.cshtml" />
+    <Content Include="Views\Company\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -229,14 +228,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201905070554393_CatFieldUpdated.resx">
-      <DependentUpon>201905070554393_CatFieldUpdated.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905080426332_CatFieldUpdated1.resx">
-      <DependentUpon>201905080426332_CatFieldUpdated1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905080553561_CatFieldUpdated2.resx">
-      <DependentUpon>201905080553561_CatFieldUpdated2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201905080647415_CatFieldUpdated.resx">
+      <DependentUpon>201905080647415_CatFieldUpdated.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

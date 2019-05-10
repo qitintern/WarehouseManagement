@@ -7,13 +7,13 @@ namespace WarehouseManagement.Models
 {
     public class Company
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public string Unit { get; set; }
-        public string Street { get; set; }
-        public string State { get; set; }
-        public string Postcode { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Email { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
+        public string unit { get; set; }
+        public string street { get; set; }
+        public string state { get; set; }
+        public string postcode { get; set; }
+        public string phoneNumber { get; set; }
+        public string email { get; set; }
     }
 }

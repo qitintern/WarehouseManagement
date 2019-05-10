@@ -7,7 +7,7 @@ namespace WarehouseManagement.Models
 {
 	public class Stock
 	{
-		public int ID { get; set; }
-		public int ProductID { get; set; }
+		public int id { get; set; }
+		public int productId { get; set; }
 	}
 }

@@ -146,10 +146,15 @@
       <DependentUpon>201905080647415_CatFieldUpdated.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Bin.cs" />
+    <Compile Include="Models\BinContent.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductCategory.cs" />
     <Compile Include="Models\ProductGroup.cs" />
+    <Compile Include="Models\Stock.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Warehouse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

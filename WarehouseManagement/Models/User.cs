@@ -7,11 +7,13 @@ namespace WarehouseManagement.Models
 {
 	public class User
 	{
-		public int ID { get; set; }
-		public string Fname { get; set; }
-		public string Lname { get; set; }
-		public string UserType { get; set; }
-		public DateTime UserJoinDate { get; set; }
-		public DateTime UserQuitDate { get; set; }
+		public int id { get; set; }
+		public string fname { get; set; }
+		public string lname { get; set; }
+		public string email { get; set; }
+		public string password { get; set; }
+		public string userType { get; set; }
+		public DateTime userJoinDate { get; set; }
+		public DateTime userQuitDate { get; set; }
 	}
 }

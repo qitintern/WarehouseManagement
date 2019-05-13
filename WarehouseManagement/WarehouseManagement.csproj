@@ -145,16 +145,19 @@
     <Compile Include="Migrations\201905080647415_CatFieldUpdated.Designer.cs">
       <DependentUpon>201905080647415_CatFieldUpdated.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905130154402_CatFieldUpdated1.cs" />
+    <Compile Include="Migrations\201905130154402_CatFieldUpdated1.Designer.cs">
+      <DependentUpon>201905130154402_CatFieldUpdated1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905130203022_CatFieldUpdated2.cs" />
+    <Compile Include="Migrations\201905130203022_CatFieldUpdated2.Designer.cs">
+      <DependentUpon>201905130203022_CatFieldUpdated2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Bin.cs" />
-    <Compile Include="Models\BinContent.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductCategory.cs" />
     <Compile Include="Models\ProductGroup.cs" />
-    <Compile Include="Models\Stock.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Models\Warehouse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +238,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201905080647415_CatFieldUpdated.resx">
       <DependentUpon>201905080647415_CatFieldUpdated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905130154402_CatFieldUpdated1.resx">
+      <DependentUpon>201905130154402_CatFieldUpdated1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905130203022_CatFieldUpdated2.resx">
+      <DependentUpon>201905130203022_CatFieldUpdated2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

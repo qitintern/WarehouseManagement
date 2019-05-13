@@ -7,12 +7,12 @@ namespace WarehouseManagement.Models
 {
     public class ProductGroup
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string description{ get; set; }
-        public int productCategoryId { get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int ProductCategoryID { get; set; }
 
-        public virtual ProductCategory productCategory { get; set; }
+        public virtual ProductCategory ProductCategory { get; set; }
 
     }
 }

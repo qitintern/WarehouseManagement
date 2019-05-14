@@ -1,4 +1,4 @@
-﻿@model WarehouseManagement.Models.Product
+﻿@model WarehouseManagement.DAL.Product
 
 @{
     ViewBag.Title = "Delete";
@@ -19,13 +19,7 @@
             @Html.DisplayFor(model => model.Group.Name)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ProductCategory.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ProductCategory.Name)
-        </dd>
+       
 
         <dt>
             @Html.DisplayNameFor(model => model.Name)

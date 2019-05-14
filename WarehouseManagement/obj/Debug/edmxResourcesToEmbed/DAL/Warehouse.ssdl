@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="warehouse_managementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Bin">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="description" Type="varchar" MaxLength="200" />
+    <Property Name="warehouse_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Bin_Stock">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="bin_id" Type="int" Nullable="false" />
+    <Property Name="stock_id" Type="int" Nullable="false" />
+    <Property Name="quantity" Type="int" Nullable="false" />
+    <Property Name="stock_in_date" Type="date" Nullable="false" />
+    <Property Name="stock_out_date" Type="date" />
+  </EntityType>
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="phone_number" Type="varchar" MaxLength="15" />
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="address" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="ProductCategory">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProductGroup">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="255" />
+    <Property Name="ProductCategoryID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="255" />
+    <Property Name="ProductGroupID" Type="int" Nullable="false" />
+    <Property Name="Price" Type="float" />
+  </EntityType>
+  <EntityType Name="Stock">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="product_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Warehouse">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="location" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="company_id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Bin_Stock_id">
+    <End Role="Bin" Type="Self.Bin" Multiplicity="1" />
+    <End Role="Bin_Stock" Type="Self.Bin_Stock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bin">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Bin_Stock">
+        <PropertyRef Name="bin_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Company_Warehouse">
+    <End Role="Company" Type="Self.Company" Multiplicity="1" />
+    <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Warehouse">
+        <PropertyRef Name="company_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_product_group_product_categroy">
+    <End Role="ProductCategory" Type="Self.ProductCategory" Multiplicity="1" />
+    <End Role="ProductGroup" Type="Self.ProductGroup" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductCategory">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ProductGroup">
+        <PropertyRef Name="ProductCategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_Stock">
+    <End Role="Products" Type="Self.Products" Multiplicity="1" />
+    <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Products">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Stock">
+        <PropertyRef Name="product_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Stock_Bin_id">
+    <End Role="Stock" Type="Self.Stock" Multiplicity="1" />
+    <End Role="Bin_Stock" Type="Self.Bin_Stock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Stock">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Bin_Stock">
+        <PropertyRef Name="stock_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Warehouse_Bin">
+    <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="1" />
+    <End Role="Bin" Type="Self.Bin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Warehouse">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Bin">
+        <PropertyRef Name="warehouse_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="warehouse_managementModelStoreContainer">
+    <EntitySet Name="Bin" EntityType="Self.Bin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Bin_Stock" EntityType="Self.Bin_Stock" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductGroup" EntityType="Self.ProductGroup" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Stock" EntityType="Self.Stock" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Warehouse" EntityType="Self.Warehouse" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Bin_Stock_id" Association="Self.FK_Bin_Stock_id">
+      <End Role="Bin" EntitySet="Bin" />
+      <End Role="Bin_Stock" EntitySet="Bin_Stock" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Company_Warehouse" Association="Self.FK_Company_Warehouse">
+      <End Role="Company" EntitySet="Company" />
+      <End Role="Warehouse" EntitySet="Warehouse" />
+    </AssociationSet>
+    <AssociationSet Name="FK_product_group_product_categroy" Association="Self.FK_product_group_product_categroy">
+      <End Role="ProductCategory" EntitySet="ProductCategory" />
+      <End Role="ProductGroup" EntitySet="ProductGroup" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_Stock" Association="Self.FK_Product_Stock">
+      <End Role="Products" EntitySet="Products" />
+      <End Role="Stock" EntitySet="Stock" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Stock_Bin_id" Association="Self.FK_Stock_Bin_id">
+      <End Role="Stock" EntitySet="Stock" />
+      <End Role="Bin_Stock" EntitySet="Bin_Stock" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Warehouse_Bin" Association="Self.FK_Warehouse_Bin">
+      <End Role="Warehouse" EntitySet="Warehouse" />
+      <End Role="Bin" EntitySet="Bin" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,4 +1,4 @@
-﻿@model WarehouseManagement.Models.Product
+﻿@model WarehouseManagement.DAL.Product
 
 @{
     ViewBag.Title = "Edit";
@@ -43,10 +43,10 @@
      
 
     <div class="form-group">
-        @Html.LabelFor(model => model.GroupID, "GroupID", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.ProductGroupID, "GroupID", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownList("GroupID", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.GroupID, "", new { @class = "text-danger" })
+             @Html.DropDownList("GroupID", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ProductGroupID, "", new { @class = "text-danger" })
         </div>
     </div>
 

@@ -7,18 +7,21 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WarehouseManagement.DAL;
-using WarehouseManagement.Models;
+
 
 namespace WarehouseManagement.Controllers
 {
     public class CompanyController : Controller
     {
-        private WarehouseManagementContext db = new WarehouseManagementContext();
+        
 
         // GET: Company
         public ActionResult Index()
         {
-            return View(db.Companies.ToList());
+            using (var db = new warehouse_managementEntities())
+            {
+                return View(db.Companies.ToList());
+            }
         }
 
         // GET: Company/Details/5
@@ -28,12 +31,15 @@ namespace WarehouseManagement.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Company company = db.Companies.Find(id);
-            if (company == null)
+            using (var db = new warehouse_managementEntities())
             {
-                return HttpNotFound();
+                DAL.Company company = db.Companies.Find(id);
+                if (company == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(company);
             }
-            return View(company);
         }
 
         // GET: Company/Create
@@ -47,13 +53,16 @@ namespace WarehouseManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Unit,Street,State,Postcode,PhoneNumber,Email")] Company company)
+        public ActionResult Create([Bind(Include = "ID,Name,Unit,Street,State,Postcode,PhoneNumber,Email")] DAL.Company company)
         {
             if (ModelState.IsValid)
             {
-                db.Companies.Add(company);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                using (var db = new warehouse_managementEntities())
+                {
+                    db.Companies.Add(company);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
 
             return View(company);
@@ -66,12 +75,15 @@ namespace WarehouseManagement.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Company company = db.Companies.Find(id);
-            if (company == null)
+            using (var db = new warehouse_managementEntities())
             {
-                return HttpNotFound();
+                DAL.Company company = db.Companies.Find(id);
+                if (company == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(company);
             }
-            return View(company);
         }
 
         // POST: Company/Edit/5
@@ -79,15 +91,19 @@ namespace WarehouseManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,Unit,Street,State,Postcode,PhoneNumber,Email")] Company company)
+        public ActionResult Edit([Bind(Include = "id,name,phone_number,Email,address")] DAL.Company company)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(company).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                using (var db = new warehouse_managementEntities())
+                {
+                    db.Entry(company).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
-            return View(company);
+                return View(company);
+            
         }
 
         // GET: Company/Delete/5
@@ -97,12 +113,15 @@ namespace WarehouseManagement.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Company company = db.Companies.Find(id);
-            if (company == null)
+            using (var db = new warehouse_managementEntities())
             {
-                return HttpNotFound();
+                DAL.Company company = db.Companies.Find(id);
+                if (company == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(company);
             }
-            return View(company);
         }
 
         // POST: Company/Delete/5
@@ -110,19 +129,25 @@ namespace WarehouseManagement.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Company company = db.Companies.Find(id);
-            db.Companies.Remove(company);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            using (var db = new warehouse_managementEntities())
+            {
+                DAL.Company company = db.Companies.Find(id);
+                db.Companies.Remove(company);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+                using (var db = new warehouse_managementEntities())
+                {
+                    db.Dispose();
+                }
             }
             base.Dispose(disposing);
-        }
+        } 
     }
 }

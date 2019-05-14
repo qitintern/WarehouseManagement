@@ -7,19 +7,20 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WarehouseManagement.DAL;
-using WarehouseManagement.Models;
 
 namespace WarehouseManagement.Controllers
 {
     public class ProductGroupController : Controller
     {
-        private WarehouseManagementContext db = new WarehouseManagementContext();
 
         // GET: ProductGroup
         public ActionResult Index()
         {
-            var productGroups = db.ProductGroups.Include(p => p.ProductCategory);
-            return View(productGroups.ToList());
+            using (var db = new warehouse_managementEntities())
+            {
+                var productGroups = db.ProductGroups.Include(p => p.ProductCategory);
+                return View(productGroups.ToList());
+            }
         }
 
         // GET: ProductGroup/Details/5
@@ -29,19 +30,25 @@ namespace WarehouseManagement.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProductGroup productGroup = db.ProductGroups.Find(id);
-            if (productGroup == null)
+            using (var db = new warehouse_managementEntities())
             {
-                return HttpNotFound();
+                DAL.ProductGroup productGroup = db.ProductGroups.Find(id);
+                if (productGroup == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(productGroup);
             }
-            return View(productGroup);
         }
 
         // GET: ProductGroup/Create
         public ActionResult Create()
         {
-            ViewBag.ProductCategoryID = new SelectList(db.productCategories, "ID", "Name");
-            return View();
+            using (var db = new warehouse_managementEntities())
+            {
+                ViewBag.ProductCategoryID = (new SelectList(db.ProductCategories, "ID", "Name")).ToList();
+                return View();
+            }
         }
 
         // POST: ProductGroup/Create
@@ -49,17 +56,23 @@ namespace WarehouseManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Description,ProductCategoryID")] ProductGroup productGroup)
+        public ActionResult Create([Bind(Include = "ID,Name,Description,ProductCategoryID")] DAL.ProductGroup productGroup)
         {
             if (ModelState.IsValid)
             {
-                db.ProductGroups.Add(productGroup);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                using (var db = new warehouse_managementEntities())
+                {
+                    db.ProductGroups.Add(productGroup);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
+            using (var db = new warehouse_managementEntities())
+            {
 
-            ViewBag.ProductCategoryID = new SelectList(db.productCategories, "ID", "Name", productGroup.ProductCategoryID);
-            return View(productGroup);
+                ViewBag.ProductCategoryID = new SelectList(db.ProductCategories, "ID", "Name", productGroup.ProductCategoryID);
+                return View(productGroup);
+            }
         }
 
         // GET: ProductGroup/Edit/5
@@ -69,13 +82,16 @@ namespace WarehouseManagement.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProductGroup productGroup = db.ProductGroups.Find(id);
-            if (productGroup == null)
+            using (var db = new warehouse_managementEntities())
             {
-                return HttpNotFound();
+                DAL.ProductGroup productGroup = db.ProductGroups.Find(id);
+                if (productGroup == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.ProductCategoryID = new SelectList(db.ProductCategories, "ID", "Name", productGroup.ProductCategoryID);
+                return View(productGroup);
             }
-            ViewBag.ProductCategoryID = new SelectList(db.productCategories, "ID", "Name", productGroup.ProductCategoryID);
-            return View(productGroup);
         }
 
         // POST: ProductGroup/Edit/5
@@ -83,17 +99,25 @@ namespace WarehouseManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,Description,ProductCategoryID")] ProductGroup productGroup)
+        public ActionResult Edit([Bind(Include = "ID,Name,Description,ProductCategoryID")] DAL.ProductGroup productGroup)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(productGroup).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                using (var db = new warehouse_managementEntities())
+                {
+                    db.Entry(productGroup).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
-            ViewBag.ProductCategoryID = new SelectList(db.productCategories, "ID", "Name", productGroup.ProductCategoryID);
-            return View(productGroup);
+            using (var db = new warehouse_managementEntities())
+            {
+                ViewBag.ProductCategoryID = new SelectList(db.ProductCategories, "ID", "Name", productGroup.ProductCategoryID);
+                return View(productGroup);
+            }
         }
+            
+        
 
         // GET: ProductGroup/Delete/5
         public ActionResult Delete(int? id)
@@ -102,12 +126,15 @@ namespace WarehouseManagement.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProductGroup productGroup = db.ProductGroups.Find(id);
-            if (productGroup == null)
+            using (var db = new warehouse_managementEntities())
             {
-                return HttpNotFound();
+                DAL.ProductGroup productGroup = db.ProductGroups.Find(id);
+                if (productGroup == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(productGroup);
             }
-            return View(productGroup);
         }
 
         // POST: ProductGroup/Delete/5
@@ -115,17 +142,23 @@ namespace WarehouseManagement.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            ProductGroup productGroup = db.ProductGroups.Find(id);
-            db.ProductGroups.Remove(productGroup);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            using (var db = new warehouse_managementEntities())
+            {
+                DAL.ProductGroup productGroup = db.ProductGroups.Find(id);
+                db.ProductGroups.Remove(productGroup);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+                using (var db = new warehouse_managementEntities())
+                {
+                    db.Dispose();
+                }
             }
             base.Dispose(disposing);
         }

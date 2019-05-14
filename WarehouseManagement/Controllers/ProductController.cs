@@ -6,79 +6,96 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using WarehouseManagement.DAL;
-using WarehouseManagement.Models;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using WarehouseManagement.DAL;
 
 namespace WarehouseManagement.Controllers
 {
     public class ProductController : Controller
     {
-        private WarehouseManagementContext db = new WarehouseManagementContext();
 
         // GET: Product
         public ActionResult Index()
         {
-            var products = db.Products.Include(p => p.Group);
+            using (var db = new warehouse_managementEntities()) { 
+            var products = db.Products;
             return View(products.ToList());
         }
-
-        // GET: Product/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Product product = db.Products.Find(id);
-            if (product == null)
-            {
-                return HttpNotFound();
-            }
-            return View(product);
         }
 
-        // GET: Product/Create
-        public ActionResult Create()
-        {
-            ViewBag.ProductCategoryID = new SelectList(db.productCategories, "ID", "Name");
-            ViewBag.GroupID = new SelectList(db.ProductGroups, "ID", "Name");
-            return View();
-        }
-
-        // POST: Product/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Description,Price,GroupID")] Product product)
-        {
-            if (ModelState.IsValid)
+         // GET: Product/Details/5
+         public ActionResult Details(int? id)
+         {
+             if (id == null)
+             {
+                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+             }
+            using (var db = new warehouse_managementEntities())
             {
-                db.Products.Add(product);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                DAL.Product product = db.Products.Find(id);
+                if (product == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(product);
             }
+         }
 
-            ViewBag.GroupID = new SelectList(db.ProductGroups, "ID", "Name", product.GroupID);
-            return View(product);
-        }
-
-        // GET: Product/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
+         // GET: Product/Create
+         public ActionResult Create()
+         {
+            using (var db = new warehouse_managementEntities())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                ViewBag.ProductCategoryID = new SelectList(db.ProductCategories, "ID", "Name").ToList();
+                ViewBag.GroupID = new SelectList(db.ProductGroups, "ID", "Name").ToList();
+                return View();
             }
-            Product product = db.Products.Find(id);
-            if (product == null)
+         }
+
+         // POST: Product/Create
+         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+         [HttpPost]
+         [ValidateAntiForgeryToken]
+         public ActionResult Create(DAL.Product model)
+         {
+            using (var db = new warehouse_managementEntities())
             {
-                return HttpNotFound();
-            }   
-            ViewBag.GroupID = new SelectList(db.ProductGroups, "ID", "Name", product.GroupID);
-            return View(product);
+                if (ModelState.IsValid)
+                {
+                    db.Products.Add(model);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                ViewBag.GroupID = new SelectList(db.ProductGroups, "ID", "Name", model.ProductGroupID).ToList();
+                return View(model);
+            }
+         }
+
+         // GET: Product/Edit/5
+         public ActionResult Edit(int? id)
+         {
+             if (id == null)
+             {
+                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+             }
+            DAL.Product product;
+            using (var db = new warehouse_managementEntities())
+            {
+                 product= db.Products.Find(id);
+                if (product == null)
+                {
+                    return HttpNotFound();
+                }
+               
+            }
+            using (var db = new warehouse_managementEntities())
+            {
+                ViewBag.GroupID = new SelectList(db.ProductGroups, "ID", "Name", product.ProductGroupID).ToList();
+                return View(product);
+            }
         }
 
         // POST: Product/Edit/5
@@ -86,73 +103,90 @@ namespace WarehouseManagement.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,Description,Price,ProductCategoryID,GroupID")] Product product)
+        public ActionResult Edit([Bind(Include = "ID,Name,Description,Price,ProductCategoryID,GroupID")] DAL.Product product)
         {
-            if (ModelState.IsValid)
+            using (var db = new warehouse_managementEntities())
             {
-                db.Entry(product).State = EntityState.Modified;
+                if (ModelState.IsValid)
+                {
+                    db.Entry(product).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                ViewBag.GroupID = new SelectList(db.ProductGroups, "ID", "Name", product.ProductGroupID).ToList();
+                return View(product);
+            }
+        }
+
+         // GET: Product/Delete/5
+         public ActionResult Delete(int? id)
+         {
+             if (id == null)
+             {
+                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+             }
+            using (var db = new warehouse_managementEntities())
+            {
+                DAL.Product product = db.Products.Find(id);
+                if (product == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(product);
+            }
+         }
+
+         // POST: Product/Delete/5
+         [HttpPost, ActionName("Delete")]
+         [ValidateAntiForgeryToken]
+         public ActionResult DeleteConfirmed(int id)
+         {
+            using (var db = new warehouse_managementEntities())
+            {
+                DAL.Product product = db.Products.Find(id);
+                db.Products.Remove(product);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.GroupID = new SelectList(db.ProductGroups, "ID", "Name", product.GroupID);
-            return View(product);
-        }
+         }
 
-        // GET: Product/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
+         /*protected override void Dispose(bool disposing)
+         {
+            using (var db = new warehouse_managementEntities1())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (disposing)
+                {
+                    db.Dispose();
+                }
+                base.Dispose(disposing);
             }
-            Product product = db.Products.Find(id);
-            if (product == null)
+         }  */
+
+         [HttpGet]
+         public JsonResult GetProdGroupList(string id)
+         {
+            using (var db = new warehouse_managementEntities())
             {
-                return HttpNotFound();
+                Debug.WriteLine("-------------------------------------------------------Send to debug output.");
+                var catId = Int32.Parse(id);
+                Debug.WriteLine("Cat id is -----------" + catId);
+                var groupList = db.ProductGroups.Where(s => s.ProductCategoryID == catId).ToArray();
+                //Debug.WriteLine("The count is"+groupList.Count);
+                Debug.WriteLine("--------------------------" + Json(groupList));
+
+                var groupMap = new Dictionary<string, string>();
+                foreach (DAL.ProductGroup value in groupList)
+                {
+                    var idgroup = value.ID.ToString();
+                    groupMap.Add(idgroup, value.Name);
+
+                }
+                //JsonConvert.SerializeObject(groupList);
+                return Json(groupMap, JsonRequestBehavior.AllowGet);
             }
-            return View(product);
-        }
 
-        // POST: Product/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Product product = db.Products.Find(id);
-            db.Products.Remove(product);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        [HttpGet]
-        public JsonResult GetProdGroupList(string id)
-        {
-            Debug.WriteLine("-------------------------------------------------------Send to debug output.");
-           var catId = Int32.Parse(id);
-            Debug.WriteLine("Cat id is -----------"+ catId);
-            var groupList = db.ProductGroups.Where(s => s.ProductCategoryID == catId).ToArray();     
-            //Debug.WriteLine("The count is"+groupList.Count);
-            Debug.WriteLine("--------------------------"+Json(groupList));
-
-            var groupMap = new Dictionary<string, string>();
-            foreach (ProductGroup value in groupList)
-            {
-                var idgroup = value.ID.ToString();
-                groupMap.Add(idgroup, value.Name);
-
-            }
-            //JsonConvert.SerializeObject(groupList);
-            return Json(groupMap, JsonRequestBehavior.AllowGet);
-            
-        }
-    }
+         }
+     } 
+    
 }
